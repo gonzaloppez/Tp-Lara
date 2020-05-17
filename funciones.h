@@ -567,6 +567,54 @@ bool guardarCliente(clientes registro)
         fclose(p);
         return guardo;
 }
+bool validarFecha(int dia, int mes , int anio){
+switch ( mes )
+        {
+            case  1 :
+            case  3 :
+            case  5 :
+            case  7 :
+            case  8 :
+            case 10 :
+            case 12 : if ( dia >= 1 && dia <= 31 ){
+                          cout<<( "   FECHA CORRECTA" );
+                          return true;
+                          }
+                      else{
+                          cout<<( "   FECHA INCORRECTA" );
+                          return false;
+                      break;
+
+            case  4 :
+            case  6 :
+            case  9 :
+            case 11 : if ( dia >= 1 && dia <= 30 ){
+                          cout<<( "   FECHA CORRECTA" )<<endl;
+                          return true;}
+
+                      else{
+                          cout<<( "   FECHA INCORRECTA" )<<endl;
+                          return false;}
+                      break;
+
+            case  2 : if( anio % 4 == 0 && anio % 100 != 0 || anio % 400 == 0 ){
+                          if ( dia >= 1 && dia <= 29 ){
+                              cout<<( "   FECHA CORRECTA" );
+                              return true;}
+                        else if ( dia >= 1 && dia <= 28 ){
+                              cout<<( "   FECHA CORRECTA" );
+                              return true;}
+                        else{
+                              cout<<( "   FECHA INCORRECTA" );
+                              return false;}
+
+
+        }
+        else{  cout<<( "   FECHA INCORRECTA" );
+                              return false;}
+    }
+
+}}
 
 bool validarMail(char *mail)
 {
@@ -699,6 +747,12 @@ bool cargarCliente(clientes *registro)
     cin>>registro->fec.mes;
     cout<<"Año: ";
     cin>>registro->fec.anio;
+ 
+   if (validarFecha(registro->fec.dia,registro->fec.mes,registro->fec.anio)==false)
+    {
+        return false;
+    }
+
 
     registro->estado=true;
     return true;
