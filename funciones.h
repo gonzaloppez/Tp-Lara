@@ -569,43 +569,63 @@ bool guardarCliente(clientes registro)
 }
 
 bool validarMail(char *mail)
-{int tam;
+{
+
+    int tam;
+    int contadorArrobas=0;
     tam=strlen(mail);
-    for (int i=0;i<tam;i++)
+    for (int i=0; i<tam; i++)
     {
 
         if((mail[i]>=1 && mail[i]<=45) || (mail[i]>=58 && mail[i]<=63) || (mail[i]>=91 && mail[i]<=94) || (mail[i]>=123 && mail[i]<=249))
         {
-            cout<<"no es valido"<<endl;
+            cout<<"El email ingresado es incorrecto , por favor ingreselo con el siguiente formato name@example.com"<<endl;
             return false;
         }
-         if (mail[0]=='@' || mail[0]=='.')
+        if (mail[0]=='@' || mail[0]=='.')
         {
-        cout<<"no es un mail validoo"<<endl;
-        return false;
+            cout<<"El email ingresado es incorrecto , por favor ingreselo con el siguiente formato name@example.com"<<endl;
+            return false;
         }
 
         if (mail[i]=='@')
         {
             if((mail[i-1]>=1 && mail[i-1]<=48) || (mail[i-1]>=58 && mail[i-1]<=64) || (mail[i-1]>=91 && mail[i-1]<=96) || (mail[i-1]>=123 && mail[i-1]<=255) &&
-               (mail[i+1]>=1 && mail[i+1]<=48) || (mail[i+1]>=58 && mail[i+1]<=64) || (mail[i+1]>=91 && mail[i+1]<=96) || (mail[i+1]>=123 && mail[i+1]<=255) )
+                    (mail[i+1]>=1 && mail[i+1]<=48) || (mail[i+1]>=58 && mail[i+1]<=64) || (mail[i+1]>=91 && mail[i+1]<=96) || (mail[i+1]>=123 && mail[i+1]<=255) )
             {
-                 cout<<"no es validooo"<<endl;
-            return false;
+                cout<<"El email ingresado es incorrecto , por favor ingreselo con el siguiente formato name@example.com"<<endl;
+                return false;
             }
 
         }
-         if(mail[i]=='.')
+        if(mail[i]=='.')
         {
             if(mail[i-1]=='.' || mail[i+1]=='.')
             {
-                cout<<"no es validoooo"<<endl;
+                cout<<"El email ingresado es incorrecto , por favor ingreselo con el siguiente formato name@example.com"<<endl;
                 return false;
             }
-    }
+        }
+        if (mail[i]=='@')
+        {
+            contadorArrobas=contadorArrobas+1;
+            if (contadorArrobas==2)
+            {
+                cout<<"El email ingresado es incorrecto , por favor ingreselo con el siguiente formato name@example.com"<<endl;
+                return false;
+            }
+
+        }
+
 
     }
-return true;
+    if (contadorArrobas==0)
+        {
+            cout<<"El email ingresado es incorrecto , por favor ingreselo con el siguiente formato name@example.com"<<endl;
+            return false;
+        }
+
+    return true;
 }
 
 int generadorDeId()
@@ -677,7 +697,7 @@ bool cargarCliente(clientes *registro)
     cin>>registro->fec.dia;
     cout<<"Mes: ";
     cin>>registro->fec.mes;
-    cout<<"Año: ";
+    cout<<"AÃ±o: ";
     cin>>registro->fec.anio;
 
     registro->estado=true;
@@ -975,7 +995,7 @@ bool cargarPedido(pedidos *ped)
     cin>>ped->fec.dia;
     cout<<"Mes: ";
     cin>>ped->fec.mes;
-    cout<<"Año: ";
+    cout<<"AÃ±o: ";
     cin>>ped->fec.anio;
 
     cout<<"Ingrese la valoracion: ";
