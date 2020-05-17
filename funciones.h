@@ -1051,7 +1051,11 @@ bool cargarPedido(pedidos *ped)
     cin>>ped->fec.mes;
     cout<<"Año: ";
     cin>>ped->fec.anio;
-
+    if (validarFecha(ped->fec.dia,ped->fec.mes,ped->fec.anio)==false)
+    {
+        return false;
+    }  
+    
     cout<<"Ingrese la valoracion: ";
     cin>>ped->valoracion;
     if(ped->valoracion<0 || ped->valoracion>10)
