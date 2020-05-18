@@ -8,35 +8,68 @@ using namespace rlutil;
 
 int main()
 {
+
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    setColor(RED);
+    cout<<"                 "<<"**********************************************************************************"<<endl;
+    setColor(LIGHTGREEN);
+    cout<<"                 "<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"*************************************************By Pedro Reynoso - Gonzalo Lopez*"<<endl;
+    setColor(LIGHTGREEN);
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<endl;
+    cout<<"                                                    ";system("pause");
+
     while (true)
     {
-
+    system("cls");
     setColor(RED);
-    cout<<"**********************************************************************************"<<endl;
-    cout<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
-    cout<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
-    cout<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
-    cout<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
-    cout<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
-    cout<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
-    cout<<"**********************************************************************************"<<endl;
-    cout<<endl;
+    cout<<"                 "<<"**********************************************************************************"<<endl;
     setColor(LIGHTGREEN);
-    cout<<"MENU PRINCIPAL"<<endl;
+    cout<<"                 "<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
     setColor(RED);
-    cout<<"***********************************"<<endl;
+    cout<<"                 "<<"**********************************************************************************"<<endl;
+    cout<<endl;
+    cout<<endl;
     setColor(RED);
-    cout<<"*";setColor(LIGHTGREEN);     cout<<" 1) PLATOS";setColor(RED);cout<<"                       *"<<endl;
-    cout<<"*";setColor(LIGHTGREEN);     cout<<" 2) CLIENTES";setColor(RED);cout<<"                     *"<<endl;
-    cout<<"*";setColor(LIGHTGREEN);     cout<<" 3) PEDIDOS";setColor(RED);cout<<"                      *"<<endl;
-    cout<<"*";setColor(LIGHTGREEN);     cout<<" 4) REPORTES";setColor(RED);cout<<"                     *"<<endl;
-    cout<<"*";setColor(LIGHTGREEN);     cout<<" 5) CONFIGURACION";setColor(RED);cout<<"                *"<<endl;
-    cout<<"*";setColor(LIGHTGREEN);     cout<<" 6) Salir";setColor(RED);cout<<"                        *"<<endl;
+    cout<<"                 "<<"MENU PRINCIPAL"<<"--------------------------"<<endl;
     setColor(RED);
-    cout<<"***********************************"<<endl;
+    cout<<"                 |                                      |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      1) PLATOS";setColor(RED);cout<<"                       |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      2) CLIENTES";setColor(RED);cout<<"                     |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      3) PEDIDOS";setColor(RED);cout<<"                      |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      4) REPORTES";setColor(RED);cout<<"                     |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      5) CONFIGURACION";setColor(RED);cout<<"                |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      6) Salir";setColor(RED);cout<<"                        |"<<endl;
+    cout<<"                 |                                      |"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"----------------------------------------"<<endl;
     setColor(LIGHTGREEN);
     int opc;
-    cout<<"Ingresar opcion: ";
+    cout<<"                 "<<"Ingresar opcion: ";
     cin>>opc;
 
     switch (opc)
@@ -57,9 +90,17 @@ int main()
         case 4:
         break;
         case 5:
+            menuConfiguraciones();
+            system("cls");
         break;
         case 0:
             return 0;
+        break;
+        default:
+
+            cout<<"Opcion incorrecta"<<endl;
+            system("pause");
+            system("cls");
         break;
         }
     }

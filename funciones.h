@@ -49,11 +49,11 @@ platos leer_platos(int pos)
     platos reg;
     FILE *p;
     p = fopen("archivos.dat","rb");
-        if(p==NULL)
-        {
-            reg.id=-1;
-            return reg;
-        }
+    if(p==NULL)
+    {
+        reg.id=-1;
+        return reg;
+    }
     fseek(p,pos * sizeof(platos),SEEK_SET);
     fread(&reg, sizeof(platos),1,p);
     fclose(p);
@@ -63,17 +63,23 @@ platos leer_platos(int pos)
 void listarPlatos(platos reg)
 {
 
+
     if(reg.estado==true)
     {
-
-    cout<<"ID: "<<reg.id<<endl;
-    cout<<"nombre: "<<reg.nombre<<endl;
-    cout<<"costo: "<<reg.costo<<endl;
-    cout<<"precio: "<<reg.precio<<endl;
-    cout<<"tiempo: "<<reg.tiempoPreparacion<<endl;
-    cout<<"ID Restaurante: "<<reg.idRestaurante<<endl;
-    cout<<"Comision: "<<reg.idRestaurante<<endl;
-    cout<<"categoria: "<<reg.idCategoria<<endl;
+        setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *              PLATO DISPONIBLE                  *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
+        cout<<"ID: "<<reg.id<<endl;
+        cout<<"nombre: "<<reg.nombre<<endl;
+        cout<<"costo: "<<reg.costo<<endl;
+        cout<<"precio: "<<reg.precio<<endl;
+        cout<<"tiempo: "<<reg.tiempoPreparacion<<endl;
+        cout<<"ID Restaurante: "<<reg.idRestaurante<<endl;
+        cout<<"Comision: "<<reg.idRestaurante<<endl;
+        cout<<"categoria: "<<reg.idCategoria<<endl;
 
     }
 }
@@ -83,13 +89,13 @@ int listarPlato(platos reg)
     FILE *p;
     p = fopen("archivos.dat","rb");
     if (p==NULL)
-        {
-            cout<<"No se pudo abrir archivo"<<endl;
-            return 1;
-        }
+    {
+        cout<<"No se pudo abrir archivo"<<endl;
+        return 1;
+    }
     while(fread(&reg,sizeof(platos),1,p)==1)
     {
-        cout<<endl;
+
         listarPlatos(reg);
     }
     fclose(p);
@@ -103,19 +109,19 @@ int buscarId(int idBuscado)
     FILE *p;
     p = fopen("archivos.dat","rb");
     if (p==NULL)
-        {
-            cout<<"No se pudo abrir archivo";
-            return -2;
-        }
-        while(fread(&reg,sizeof(platos),1,p))
-        {
+    {
+        cout<<"No se pudo abrir archivo";
+        return -2;
+    }
+    while(fread(&reg,sizeof(platos),1,p))
+    {
 
         if (idBuscado == reg.id)
         {
-        fclose(p);
-        return i;
+            fclose(p);
+            return i;
         }
-    i++;
+        i++;
     }
     fclose(p);
     return -1;
@@ -129,25 +135,25 @@ bool cargarPlatos(struct platos *reg)
     system("cls");
     setColor(RED);
     cout<<"*//////////////////////////////////////////////////*"<<endl;
-    cout<<"*              CARGAR NUEVO PRODUCTO               *"<<endl;
+    cout<<" *              CARGAR NUEVO PLATO                *"<<endl;
     cout<<"*//////////////////////////////////////////////////*"<<endl;
     cout<<endl;
     setColor(LIGHTGREEN);
     cout<<"ID: ";
     cin>>reg->id;
-     if(reg->id<0)
-     {
-         cout<<"El ID no puede ser negativo!";
-         system("pause");
-         return false;
-     }
+    if(reg->id<0 || reg->id==' ')
+    {
+        cout<<"El ID no puede ser negativo!"<<endl;
+        system("pause");
+        return false;
+    }
     i = buscarId(reg->id);
-        if(i>=0)
-        {
-            cout<<"El ID esta duplicado"<<endl;
-            system("pause");
-            return false;
-        }
+    if(i>=0)
+    {
+        cout<<"El ID esta duplicado"<<endl;
+        system("pause");
+        return false;
+    }
 
     cout<<"NOMBRE: ";
     cin.ignore();
@@ -188,7 +194,7 @@ bool cargarPlatos(struct platos *reg)
 
     cout<<"RESTAURANTE: ";
     cin>>reg->idRestaurante;
-     if (reg->idRestaurante<0)
+    if (reg->idRestaurante<0)
     {
         cout<<"Este campo no puede ser negativo"<<endl;
         system("pause");
@@ -206,7 +212,7 @@ bool cargarPlatos(struct platos *reg)
 
     cout<<"CATEGORIA: ";
     cin>>reg->idCategoria;
-     if (reg->idCategoria<0)
+    if (reg->idCategoria<0)
     {
         cout<<"Este campo no puede ser negativo"<<endl;
         system("pause");
@@ -223,9 +229,9 @@ bool guardarPlato(platos reg)
     FILE *p;
     p=fopen("archivos.dat","ab");
     if(p==NULL)
-        {
-            return false;
-        }
+    {
+        return false;
+    }
     guardo= fwrite(&reg,sizeof(platos),1,p);
     fclose(p);
     return guardo;
@@ -233,7 +239,13 @@ bool guardarPlato(platos reg)
 
 void listarPlatosId(platos reg)
 {
-
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *                 BUSCAR PLATO                   *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     int id_buscado, pos;
     cout<<"Ingresar ID del plato a buscar: ";
     cin>>id_buscado;
@@ -242,9 +254,10 @@ void listarPlatosId(platos reg)
     {
         platos reg = leer_platos(pos);
         listarPlatos(reg);
-    }else
+    }
+    else
     {
-        cout<<"No existe ID buscado";
+        cout<<"No existe ID buscado"<<endl;
     }
 }
 
@@ -254,9 +267,9 @@ bool sobreescribir_plato(platos reg, int pos)
     FILE *p;
     p=fopen("archivos.dat","rb+");
     if(p==NULL)
-        {
-            return false;
-        }
+    {
+        return false;
+    }
     fseek(p,pos *sizeof(platos),SEEK_SET);
     guardo= fwrite(&reg,sizeof(platos),1,p);
     fclose(p);
@@ -265,7 +278,16 @@ bool sobreescribir_plato(platos reg, int pos)
 }
 
 
-void editar_plato(){
+void editar_plato()
+{
+
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *              EDITAR PRODUCTO                   *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     int id_buscado,pos;
     cout<<"Pedir el ID del Plato a editar: ";
     cin>>id_buscado;
@@ -285,12 +307,14 @@ void editar_plato(){
             cout<<"Producto modificado con exito";
             cout<<endl;
         }
-        else{
+        else
+        {
             cout<<"No se modifico el plato";
             cout<<endl;
         }
     }
-    else {
+    else
+    {
         cout<<"El producto no existe";
         cout<<endl;
     }
@@ -298,7 +322,15 @@ void editar_plato(){
 
 }
 
-void bajaPlato(){
+void bajaPlato()
+{
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *              BAJA DE PRODUCTO                  *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     int id_buscado,pos,baja;
     cout<<"Pedir el ID del Plato a dar de baja: ";
     cin>>id_buscado;
@@ -316,7 +348,8 @@ void bajaPlato(){
         {
             reg.estado = false;
         }
-        else{
+        else
+        {
             cout<<"No se modifico el plato";
             cout<<endl;
         }
@@ -325,12 +358,14 @@ void bajaPlato(){
             cout<<"Producto eliminado con exito";
             cout<<endl;
         }
-        else{
+        else
+        {
             cout<<"No se modifico el plato";
             cout<<endl;
         }
     }
-    else {
+    else
+    {
         cout<<"El producto no existe";
         cout<<endl;
     }
@@ -340,83 +375,98 @@ void bajaPlato(){
 
 
 void listarPorRestaurante(platos reg)
-{   int idRestaurant;
+{
+
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *          BUSCAR PLATO POR RESTAURANTE          *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
+    int idRestaurant;
     cout<<"Indique el ID del restaurant para ver los platos: ";
     cin>>idRestaurant;
     FILE *p;
     p = fopen("archivos.dat","rb");
     if (p==NULL)
-        {
-            cout<<"No se pudo abrir archivo";
-        }
+    {
+        cout<<"No se pudo abrir archivo";
+    }
     while(fread(&reg,sizeof(platos),1,p))
     {
         if (idRestaurant == reg.idRestaurante)
         {
-            if(reg.estado==true){
-                    system("cls");
-        cout<<"ID: "<<reg.id<<endl;
-        cout<<"nombre: "<<reg.nombre<<endl;
-        cout<<"costo: "<<reg.costo<<endl;
-        cout<<"precio: "<<reg.precio<<endl;
-        cout<<"tiempo: "<<reg.tiempoPreparacion<<endl;
-        cout<<"ID Restaurante: "<<reg.idRestaurante<<endl;
-        cout<<"Comision: "<<reg.idRestaurante<<endl;
-        cout<<"categoria: "<<reg.idCategoria<<endl;
-        cout<<endl;}
+            if(reg.estado==true)
+            {
+                system("cls");
+                cout<<"ID: "<<reg.id<<endl;
+                cout<<"nombre: "<<reg.nombre<<endl;
+                cout<<"costo: "<<reg.costo<<endl;
+                cout<<"precio: "<<reg.precio<<endl;
+                cout<<"tiempo: "<<reg.tiempoPreparacion<<endl;
+                cout<<"ID Restaurante: "<<reg.idRestaurante<<endl;
+                cout<<"Comision: "<<reg.idRestaurante<<endl;
+                cout<<"categoria: "<<reg.idCategoria<<endl;
+                cout<<endl;
+            }
         }
 
-}
+    }
 
 }
 
 void menuPlatos()
 {
 
-     while(true)
+    while(true)
     {
 
         int opcion;
         system("cls");
         setColor(RED);
-    cout<<"**********************************************************************************"<<endl;
-    cout<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
-    cout<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
-    cout<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
-    cout<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
-    cout<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
-    cout<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
-    cout<<"**********************************************************************************"<<endl;
-    cout<<endl;
+    cout<<"                 "<<"**********************************************************************************"<<endl;
     setColor(LIGHTGREEN);
-        cout<<"MENU PLATOS"<<endl;
-        setColor(RED);
-        cout<<"****************"<<endl;
-        setColor(LIGHTGREEN);
-        cout<<"1) NUEVO PLATO"<<endl;
-        cout<<"2) MODIFICAR PLATO"<<endl;
-        cout<<"3) LISTAR PLATO POR ID"<<endl;
-        cout<<"4) PLATOS POR RESTAURANT"<<endl;
-        cout<<"5) LISTAR TODOS LOS PLATOS"<<endl;
-        cout<<"6) ELIMINAR PLATO"<<endl;
-        cout<<"0) Salir"<<endl;
-        setColor(RED);
-        cout<<"****************"<<endl;
-        setColor(LIGHTGREEN);
-        cout<<"Ingresar opcion: ";
+    cout<<"                 "<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"**********************************************************************************"<<endl;
+    cout<<endl;
+    cout<<endl;
+    setColor(RED);
+    cout<<"                 "<<"PLATOS"<<"----------------------------------"<<endl;
+    setColor(RED);
+    cout<<"                 |                                      |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      1) NUEVO PLATO";setColor(RED);cout<<"                  |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      2) MODIFICAR PLATO";setColor(RED);cout<<"              |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      3) LISTAR PLATO POR ID";setColor(RED);cout<<"          |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      4) PLATOS POR RESTAURANT";setColor(RED);cout<<"        |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      5) LISTAR TODOS LOS PLATOS";setColor(RED);cout<<"      |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      6) ELIMINAR PLATO";setColor(RED);cout<<"               |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      0) Salir";setColor(RED);cout<<"                        |"<<endl;
+    cout<<"                 |                                      |"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"----------------------------------------"<<endl;
+    setColor(LIGHTGREEN);
+        cout<<"                  Ingresar opcion: ";
         cin>>opcion;
 
-    switch (opcion)
-    {
+        switch (opcion)
+        {
 
         case 1:
             platos reg;
             if(cargarPlatos(&reg)==true)
-            {   if(guardarPlato(reg)==true)
+            {
+                if(guardarPlato(reg)==true)
                 {
-                cout<<endl;
-                cout<<"Se agrego el plato"<<endl;
-                system("pause");
+                    cout<<endl;
+                    cout<<"Se agrego el plato"<<endl;
+                    system("pause");
                 }
                 else
                 {
@@ -425,36 +475,41 @@ void menuPlatos()
                     system("pause");
                 }
             }
-        break;
+            break;
         case 2:
             editar_plato();
             system("pause");
-        break;
+            break;
         case 3:
             system("cls");
             listarPlatosId(reg);
             system("pause");
-        break;
+            break;
         case 4:
-          listarPorRestaurante(reg);
-          system("pause");
-        break;
+            listarPorRestaurante(reg);
+            system("pause");
+            break;
         case 5:
             system("cls");
             listarPlato(reg);
             system("pause");
-        break;
+            break;
         case 6:
             bajaPlato();
             system("pause");
-        break;
+            break;
         case 0:
             return;
-        break;
+            break;
+        default:
+
+            cout<<"Opcion incorrecta"<<endl;
+            system("pause");
+            system("cls");
+            break;
+        }
 
     }
-
-}
 
 }
 
@@ -465,10 +520,11 @@ clientes leerClientes(int pos)
     clientes registros;
     FILE *p;
     p = fopen("clientes.dat","rb");
-    if (p==NULL){
-            registros.id=-1;
-            return registros;
-        }
+    if (p==NULL)
+    {
+        registros.id=-1;
+        return registros;
+    }
     fseek(p,pos*sizeof(clientes),SEEK_SET);
     fread(&registros,sizeof(clientes),1,p);
     fclose(p);
@@ -481,7 +537,8 @@ int buscarIdC(int idBuscado)
     clientes registros;
     FILE *p;
     p = fopen("clientes.dat","rb");
-    if (p==NULL){
+    if (p==NULL)
+    {
         return -1;
     }
     while(fread(&registros,sizeof(clientes),1,p)==1)
@@ -501,34 +558,49 @@ int buscarIdC(int idBuscado)
 
 void listarCliente(clientes registro)
 {
-      if(registro.estado==true)
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *               CLIENTES DISPONIBLES             *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
+    if(registro.estado==true)
     {
 
-    cout<<"ID: "<<registro.id<<endl;
-    cout<<"Apellido: "<<registro.apellidos<<endl;
-    cout<<"Nombre: "<<registro.nombres<<endl;
-    cout<<"Mail: "<<registro.mail<<endl;
-    cout<<"Domicilio: "<<registro.domicilio<<endl;
-    cout<<"Codigo postal: "<<registro.cp<<endl;
-    cout<<"Fecha de nacimiento: "<<registro.fec.dia<<"/"<<registro.fec.mes<<"/"<<registro.fec.anio<<endl;
+        cout<<"ID: "<<registro.id<<endl;
+        cout<<"Apellido: "<<registro.apellidos<<endl;
+        cout<<"Nombre: "<<registro.nombres<<endl;
+        cout<<"Mail: "<<registro.mail<<endl;
+        cout<<"Domicilio: "<<registro.domicilio<<endl;
+        cout<<"Codigo postal: "<<registro.cp<<endl;
+        cout<<"Fecha de nacimiento: "<<registro.fec.dia<<"/"<<registro.fec.mes<<"/"<<registro.fec.anio<<endl;
     }
 
 }
 
 void listarPorId(clientes registro)
 {
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *                BUSCAR CLIENTE                  *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     int idBuscado,pos;
-
     cout<<"Ingrese ID de restaurant: ";
     cin>>idBuscado;
     pos= buscarIdC(idBuscado);
     if (pos>=0)
     {
-    clientes registros=leerClientes(pos);
-    listarCliente(registros);
-    system("pause");
-    }else{
-        cout<<"No existe el registro";
+        clientes registros=leerClientes(pos);
+        listarCliente(registros);
+        system("pause");
+    }
+    else
+    {
+        cout<<"No existe el registro"<<endl;
+        system("pause");
     }
 
 }
@@ -541,6 +613,7 @@ int listarClientes(clientes registro)
     if(p==NULL)
     {
         cout<<"No se pudo abrir el archivo";
+        system("pause");
         return 1;
     }
     while(fread(&registro,sizeof(clientes),1,p))
@@ -559,64 +632,86 @@ bool guardarCliente(clientes registro)
     FILE *p;
     p = fopen("clientes.dat","ab");
     if (p==NULL)
-        {
+    {
         cout<<"No se pudo crear achivo"<<endl;
         return false;
-        }
-        guardo=fwrite(&registro, sizeof(clientes),1,p);
-        fclose(p);
-        return guardo;
-}
-bool validarFecha(int dia, int mes , int anio){
-
-}
-switch ( mes )
-        {
-            case  1 :
-            case  3 :
-            case  5 :
-            case  7 :
-            case  8 :
-            case 10 :
-            case 12 : if ( dia >= 1 && dia <= 31 ){
-                          
-                          return true;
-                          }
-                      else{
-                          cout<<( "   FECHA INCORRECTA" );
-                          return false;
-                      break;
-
-            case  4 :
-            case  6 :
-            case  9 :
-            case 11 : if ( dia >= 1 && dia <= 30 ){
-                          
-                          return true;}
-
-                      else{
-                          cout<<( "   FECHA INCORRECTA" )<<endl;
-                          return false;}
-                      break;
-
-            case  2 : if( anio % 4 == 0 && anio % 100 != 0 || anio % 400 == 0 ){
-                          if ( dia >= 1 && dia <= 29 ){
-                              
-                              return true;}
-                        else if ( dia >= 1 && dia <= 28 ){
-                              
-                              return true;}
-                        else{
-                              cout<<( "   FECHA INCORRECTA" );
-                              return false;}
-
-
-        }
-        else{  cout<<( "   FECHA INCORRECTA" );
-                              return false;}
     }
+    guardo=fwrite(&registro, sizeof(clientes),1,p);
+    fclose(p);
+    return guardo;
+}
+bool validarFecha(int dia, int mes, int anio)
+{
 
-}}
+
+    switch ( mes )
+    {
+    case  1 :
+    case  3 :
+    case  5 :
+    case  7 :
+    case  8 :
+    case 10 :
+    case 12 :
+        if ( dia >= 1 && dia <= 31 )
+        {
+
+            return true;
+        }
+        else
+        {
+            cout<<( "   FECHA INCORRECTA" );
+            return false;
+            break;
+
+        case  4 :
+        case  6 :
+        case  9 :
+        case 11 :
+            if ( dia >= 1 && dia <= 30 )
+            {
+
+                return true;
+            }
+
+            else
+            {
+                cout<<( "   FECHA INCORRECTA" )<<endl;
+                return false;
+            }
+            break;
+
+        case  2 :
+            if( anio % 4 == 0 && anio % 100 != 0 || anio % 400 == 0 )
+            {
+                if ( dia >= 1 && dia <= 29 )
+                {
+
+                    return true;
+                }
+                else if ( dia >= 1 && dia <= 28 )
+                {
+
+                    return true;
+                }
+                else
+                {
+                    cout<<( "   FECHA INCORRECTA" );
+                    return false;
+                }
+
+
+            }
+            else
+            {
+                cout<<( "   FECHA INCORRECTA" );
+                return false;
+            }
+        }
+
+    }
+    return true;
+}
 
 bool validarMail(char *mail)
 {
@@ -670,10 +765,10 @@ bool validarMail(char *mail)
 
     }
     if (contadorArrobas==0)
-        {
-            cout<<"El email ingresado es incorrecto , por favor ingreselo con el siguiente formato name@example.com"<<endl;
-            return false;
-        }
+    {
+        cout<<"El email ingresado es incorrecto , por favor ingreselo con el siguiente formato name@example.com"<<endl;
+        return false;
+    }
 
     return true;
 }
@@ -690,8 +785,14 @@ int generadorDeId()
 }
 
 bool cargarCliente(clientes *registro)
-{   system("cls");
-
+{
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *               CARGA DE CLIENTES                *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     registro->id=generadorDeId();
     cout<<"Cliente ID"<<" "<<registro->id<<endl;
 
@@ -699,18 +800,18 @@ bool cargarCliente(clientes *registro)
     cout<<"Ingrese apellido del cliente: ";
     cin.ignore();
     cin.getline(registro->apellidos,50);
-     if(registro->apellidos[0] == '\0')
+    if(registro->apellidos[0] == '\0')
     {
-         cout<<"Este campo no puede estar vacio"<<endl;
+        cout<<"Este campo no puede estar vacio"<<endl;
         system("pause");
         return false;
     }
 
     cout<<"Ingrese nombre del cliente: ";
     cin.getline(registro->nombres,50);
-     if(registro->nombres[0] == '\0')
+    if(registro->nombres[0] == '\0')
     {
-         cout<<"Este campo no puede estar vacio"<<endl;
+        cout<<"Este campo no puede estar vacio"<<endl;
         system("pause");
         return false;
     }
@@ -718,17 +819,17 @@ bool cargarCliente(clientes *registro)
     cout<<"Ingrese Mail del cliente: ";
     cin.getline(registro->mail,50);
 
-       if (validarMail(registro->mail)==false)
-        {
-            return false;
-        }
+    if (validarMail(registro->mail)==false)
+    {
+        return false;
+    }
 
     cout<<"Ingrese domicilio: ";
     cin.getline(registro->domicilio,100);
     cin.ignore();
     if(registro->domicilio[0] == '\0')
     {
-         cout<<"Este campo no puede estar vacio"<<endl;
+        cout<<"Este campo no puede estar vacio"<<endl;
         system("pause");
         return false;
     }
@@ -736,9 +837,9 @@ bool cargarCliente(clientes *registro)
     cout<<"Ingrese codigo postal: ";
 
     cin>>registro->cp;
-     if(registro->cp<1000 || registro->cp>9999)
+    if(registro->cp<1000 || registro->cp>9999)
     {
-         cout<<"Debe ser un numero entre 1000 y 9999"<<endl;
+        cout<<"Debe ser un numero entre 1000 y 9999"<<endl;
         return false;
     }
 
@@ -749,8 +850,8 @@ bool cargarCliente(clientes *registro)
     cin>>registro->fec.mes;
     cout<<"Año: ";
     cin>>registro->fec.anio;
- 
-   if (validarFecha(registro->fec.dia,registro->fec.mes,registro->fec.anio)==false)
+
+    if (validarFecha(registro->fec.dia,registro->fec.mes,registro->fec.anio)==false)
     {
         return false;
     }
@@ -758,7 +859,7 @@ bool cargarCliente(clientes *registro)
 
     registro->estado=true;
     return true;
-    }
+}
 
 bool sobreescribirCliente(clientes registro, int pos)
 {
@@ -767,7 +868,7 @@ bool sobreescribirCliente(clientes registro, int pos)
     p = fopen("clientes.dat","rb+");
     if(p==NULL)
     {
-       return -1;
+        return -1;
     }
     fseek(p,pos*sizeof(clientes),SEEK_SET);
     guardado = fwrite(&registro,sizeof(clientes),1,p);
@@ -778,7 +879,13 @@ bool sobreescribirCliente(clientes registro, int pos)
 
 void modificarCliente()
 {
-system("cls");
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *               MODIFICAR CLIENTE                *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     int pos,id_buscado;
     cout<<"Indicar ID de cliente a modificar: ";
     cin>>id_buscado;
@@ -794,8 +901,8 @@ system("cls");
         cin.getline(registro.domicilio,100);
         if(registro.domicilio[0] == '\0')
         {
-        cout<<"Este campo no puede estar vacio"<<endl;
-        system("pause");
+            cout<<"Este campo no puede estar vacio"<<endl;
+            system("pause");
 
         }
         if(sobreescribirCliente(registro,pos))
@@ -803,18 +910,31 @@ system("cls");
             cout<<"Cliente modificado con exito"<<endl;
             system("pause");
 
-        }else{
-        cout<<"No se pudo modificar el registro"<<endl;
+        }
+        else
+        {
+            cout<<"No se pudo modificar el registro"<<endl;
+            system("pause");
         }
 
-    }else{
-    cout<<"No se encontro cliente"<<endl;
+    }
+    else
+    {
+        cout<<"No se encontro cliente"<<endl;
+        system("pause");
     }
 
 }
 
 void bajaCliente()
-{system("cls");
+{
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *                BAJA DE CLIENTE                 *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     int pos,idBuscado,baja;
     cout<<"Ingrese el cliente a dar de baja: ";
     cin>>idBuscado;
@@ -831,19 +951,22 @@ void bajaCliente()
         {
             registro.estado=false;
         }
-        else{
-        cout<<"No se pudo dar de baja el cliente"<<endl;
+        else
+        {
+            cout<<"No se pudo dar de baja el cliente"<<endl;
         }
         if(sobreescribirCliente(registro,pos)==true)
         {
             cout<<"El cliente se dio de baja con exito"<<endl;
         }
-            else{
-                cout<<"No se pudo dar de baja el cliente"<<endl;
-            }
+        else
+        {
+            cout<<"No se pudo dar de baja el cliente"<<endl;
+        }
     }
-    else{
-    cout<<"No se encontro el registro"<<endl;
+    else
+    {
+        cout<<"No se encontro el registro"<<endl;
     }
 
 
@@ -851,94 +974,104 @@ void bajaCliente()
 
 
 void menuClientes()
-   {
+{
 
-while(true)
+    while(true)
     {
         int opcion;
         system("cls");
-        setColor(RED);
-    cout<<"**********************************************************************************"<<endl;
-    cout<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
-    cout<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
-    cout<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
-    cout<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
-    cout<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
-    cout<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
-    cout<<"**********************************************************************************"<<endl;
-    cout<<endl;
+            setColor(RED);
+    cout<<"                 "<<"**********************************************************************************"<<endl;
     setColor(LIGHTGREEN);
-        cout<<"MENU CLIENTES"<<endl;
-        setColor(RED);
-        cout<<"****************"<<endl;
-        setColor(LIGHTGREEN);
-        cout<<"1) NUEVO CLIENTE"<<endl;
-        cout<<"2) MODIFICAR CLIENTE"<<endl;
-        cout<<"3) LISTAR CLIENTE POR ID"<<endl;
-        cout<<"4) LISTAR TODOS LOS CLIENTES"<<endl;
-        cout<<"5) ELIMINAR CLIENTE"<<endl;
-        cout<<"0) Salir"<<endl;
-        setColor(RED);
-        cout<<"****************"<<endl;
-        setColor(LIGHTGREEN);
-        cout<<"Ingresar opcion: ";
+    cout<<"                 "<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"**********************************************************************************"<<endl;
+   cout<<endl;
+    cout<<endl;
+    setColor(RED);
+    cout<<"                 "<<"CLIENTES"<<"--------------------------------"<<endl;
+    setColor(RED);
+    cout<<"                 |                                      |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      1) NUEVO CLIENTE";setColor(RED);cout<<"                |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      2) MODIFICAR CLIENTE";setColor(RED);cout<<"            |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      3) LISTAR CLIENTE POR ID";setColor(RED);cout<<"        |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      4) LISTAR TODOS LOS CLIENTES";setColor(RED);cout<<"    |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      5) ELIMINAR CLIENTE";setColor(RED);cout<<"             |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      6) Salir";setColor(RED);cout<<"                        |"<<endl;
+    cout<<"                 |                                      |"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"----------------------------------------"<<endl;
+    setColor(LIGHTGREEN);
+        cout<<"                   Ingresar opcion: ";
         cin>>opcion;
 
         switch (opcion)
         {
 
-            case 1:
-                clientes registro;
-                if(cargarCliente(&registro)==true)
-                    {
-                        if(guardarCliente(registro))
-                        {
-                            cout<<endl;
-                            cout<<"El cliente ha sido guardado de manera exitosa"<<endl;
-                            system("pause");
-                        }else{
-                            cout<<"El cliente no pudo ser guardado"<<endl;
-                            system("pause");
-                        }
-                    }
+        case 1:
+            clientes registro;
+            if(cargarCliente(&registro)==true)
+            {
+                if(guardarCliente(registro))
+                {
+                    cout<<endl;
+                    cout<<"El cliente ha sido guardado de manera exitosa"<<endl;
                     system("pause");
+                }
+                else
+                {
+                    cout<<"El cliente no pudo ser guardado"<<endl;
+                    system("pause");
+                }
+            }
             break;
-            case 2:
-                modificarCliente();
+        case 2:
+            modificarCliente();
             break;
-            case 3:
-                system("cls");
-                listarPorId(registro);
-                system("cls");
+        case 3:
+            system("cls");
+            listarPorId(registro);
+            system("cls");
             break;
-            case 4:
-                listarClientes(registro);
+        case 4:
+            listarClientes(registro);
 
             break;
-            case 5:
-                bajaCliente();
-                system("pause");
+        case 5:
+            bajaCliente();
+            system("pause");
             break;
-            case 6:
+        case 6:
 
             break;
-            case 0:
-                return;
+        case 0:
+            return;
             break;
+        default:
+
+            cout<<"Opcion incorrecta"<<endl;
+            system("pause");
+            system("cls");
+            break;
+        }
 
     }
-
 }
- }
 
- ///-------------------------------------------------------------------------------------
+///-------------------------------------------------------------------------------------
 
 int generadorDeIdPedido()
 {
 
-   FILE *p;
+    FILE *p;
     p = fopen("pedidos.dat","ab");
-    if(p==NULL) return false;
+    if(p==NULL)
+        return false;
     fseek(p,SEEK_SET,SEEK_END);
     int id = ((ftell(p)/sizeof(pedidos))+1);
     return id;
@@ -950,18 +1083,18 @@ bool buscarIdPlato(int idBuscar)
     FILE *p;
     p = fopen("archivos.dat","rb");
     if (p==NULL)
-        {
-            cout<<"No se pudo abrir archivo";
-            return false;
-        }
-        while(fread(&reg,sizeof(platos),1,p))
-        {
+    {
+        cout<<"No se pudo abrir archivo";
+        return false;
+    }
+    while(fread(&reg,sizeof(platos),1,p))
+    {
         if (idBuscar == reg.id)
         {
-        fclose(p);
-        return true;
+            fclose(p);
+            return true;
         }
-        }
+    }
     fclose(p);
     return false;
 
@@ -973,18 +1106,18 @@ float buscarValorPlato(int idBuscar)
     FILE *p;
     p = fopen("archivos.dat","rb");
     if (p==NULL)
-        {
-            cout<<"No se pudo abrir archivo";
-            return -1;
-        }
-        while(fread(&reg,sizeof(platos),1,p))
-        {
+    {
+        cout<<"No se pudo abrir archivo";
+        return -1;
+    }
+    while(fread(&reg,sizeof(platos),1,p))
+    {
         if (idBuscar == reg.id)
         {
-        fclose(p);
-        return reg.precio;
+            fclose(p);
+            return reg.precio;
         }
-        }
+    }
     fclose(p);
     return -1;
 
@@ -995,17 +1128,24 @@ bool nuevoPedido(pedidos ped)
     FILE *p;
     p = fopen("pedidos.dat","ab");
     if(p==NULL)
-        {
+    {
         cout<<"El archivo no pudo ser creado"<<endl;
         return false;
-        }
+    }
     fwrite(&ped,sizeof(pedidos),1,p);
     fclose(p);
     return true;
-    }
+}
 
 bool cargarPedido(pedidos *ped)
 {
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *                CARGA DE PLATOS                 *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     int idBuscado,pos;
     ped->id=generadorDeIdPedido();
     cout<<"ID de pedido "<<ped->id<<endl;
@@ -1014,11 +1154,16 @@ bool cargarPedido(pedidos *ped)
     cout<<"Ingrese ID del cliente: ";
     cin>>idBuscado;
     pos=buscarIdC(idBuscado);
-    if (pos>=0){
+    if (pos>=0)
+    {
         ped->idCliente=pos+1;
-    }else{
-    cout<<"ID del cliente no existe"<<endl;
-    system("pause");
+    }
+    else
+    {
+        cout<<"ID del cliente no existe"<<endl;
+        system("pause");
+        return false;
+
     }
 
 
@@ -1029,10 +1174,13 @@ bool cargarPedido(pedidos *ped)
     if(posP==1)
     {
         ped->idPlato = idBuscar;
-        }else{
+    }
+    else
+    {
         cout<<"No existe plato"<<endl;
         system("pause");
-        }
+        return false;
+    }
 
     cout<<"Ingrese la cantidad pedida: ";
     cin>>ped->cantidad;
@@ -1056,8 +1204,8 @@ bool cargarPedido(pedidos *ped)
     if (validarFecha(ped->fec.dia,ped->fec.mes,ped->fec.anio)==false)
     {
         return false;
-    }  
-    
+    }
+
     cout<<"Ingrese la valoracion: ";
     cin>>ped->valoracion;
     if(ped->valoracion<0 || ped->valoracion>10)
@@ -1068,56 +1216,80 @@ bool cargarPedido(pedidos *ped)
     }
 
     ped->estado=1;
-
     return true;
-    }
+}
 
 void listarPedido(pedidos ped)
 {
 
-    if(ped.estado==1){
-    cout<<"PEDIDOS EN CURSO"<<endl;
-    cout<<"ID: "<<ped.id<<endl;
-    cout<<"ID Cliente: "<<ped.idCliente<<endl;
-    cout<<"ID Plato: "<<ped.idPlato<<endl;
-    cout<<"Cantidad: "<<ped.cantidad<<endl;
-    cout<<"Precio unitario: "<<ped.precioU<<endl;
-    cout<<"Fecha de pedido: "<<ped.fec.dia<<"/"<<ped.fec.mes<<"/"<<ped.fec.anio<<endl;
-    cout<<"Valoracion: "<<ped.valoracion<<endl;
+    if(ped.estado==1)
+    {
 
-        }else if(ped.estado==2)
-            {
-    cout<<"PEDIDOS COMPLETADOS"<<endl;
-    cout<<"ID: "<<ped.id<<endl;
-    cout<<"ID Cliente: "<<ped.idCliente<<endl;
-    cout<<"ID Plato: "<<ped.idPlato<<endl;
-    cout<<"Cantidad: "<<ped.cantidad<<endl;
-    cout<<"Precio unitario: "<<ped.precioU<<endl;
-    cout<<"Fecha de pedido: "<<ped.fec.dia<<"/"<<ped.fec.mes<<"/"<<ped.fec.anio<<endl;
-    cout<<"Valoracion: "<<ped.valoracion<<endl;
-            }else if(ped.estado==3)
-            {
-        cout<<"PEDIDOS CANCELADOS"<<endl;
-    cout<<"ID: "<<ped.id<<endl;
-    cout<<"ID Cliente: "<<ped.idCliente<<endl;
-    cout<<"ID Plato: "<<ped.idPlato<<endl;
-    cout<<"Cantidad: "<<ped.cantidad<<endl;
-    cout<<"Precio unitario: "<<ped.precioU<<endl;
-    cout<<"Fecha de pedido: "<<ped.fec.dia<<"/"<<ped.fec.mes<<"/"<<ped.fec.anio<<endl;
-    cout<<"Valoracion: "<<ped.valoracion<<endl;
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *                PEDIDOS EN CURSO                *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
+        cout<<endl;
+        cout<<"ID: "<<ped.id<<endl;
+        cout<<"ID Cliente: "<<ped.idCliente<<endl;
+        cout<<"ID Plato: "<<ped.idPlato<<endl;
+        cout<<"Cantidad: "<<ped.cantidad<<endl;
+        cout<<"Precio unitario: "<<ped.precioU<<endl;
+        cout<<"Fecha de pedido: "<<ped.fec.dia<<"/"<<ped.fec.mes<<"/"<<ped.fec.anio<<endl;
+        cout<<"Valoracion: "<<ped.valoracion<<endl;
 
-            }
+    }
+    else if(ped.estado==2)
+    {
+        setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *               PEDIDOS COMPLETADOS              *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
+        cout<<endl;
+        cout<<"ID: "<<ped.id<<endl;
+        cout<<"ID Cliente: "<<ped.idCliente<<endl;
+        cout<<"ID Plato: "<<ped.idPlato<<endl;
+        cout<<"Cantidad: "<<ped.cantidad<<endl;
+        cout<<"Precio unitario: "<<ped.precioU<<endl;
+        cout<<"Fecha de pedido: "<<ped.fec.dia<<"/"<<ped.fec.mes<<"/"<<ped.fec.anio<<endl;
+        cout<<"Valoracion: "<<ped.valoracion<<endl;
+    }
+    else if(ped.estado==3)
+    {
+        setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *               PEDIDOS CANCELADOS               *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
+        cout<<endl;
+        cout<<"ID: "<<ped.id<<endl;
+        cout<<"ID Cliente: "<<ped.idCliente<<endl;
+        cout<<"ID Plato: "<<ped.idPlato<<endl;
+        cout<<"Cantidad: "<<ped.cantidad<<endl;
+        cout<<"Precio unitario: "<<ped.precioU<<endl;
+        cout<<"Fecha de pedido: "<<ped.fec.dia<<"/"<<ped.fec.mes<<"/"<<ped.fec.anio<<endl;
+        cout<<"Valoracion: "<<ped.valoracion<<endl;
+
+    }
 }
 
 int listarPedidos()
-{   system("cls");
+{
+    system("cls");
     pedidos ped;
     FILE *p;
     p = fopen("pedidos.dat","rb");
-    if (p==NULL){
-                cout <<"no se pudo abrir"<<endl;
-                return 1;
-                }
+    if (p==NULL)
+    {
+        cout <<"no se pudo abrir"<<endl;
+        system("pause");
+        return 1;
+    }
     while(fread(&ped,sizeof(pedidos),1,p))
     {
         cout<<endl;
@@ -1129,28 +1301,35 @@ int listarPedidos()
 }
 
 int buscarIdPedido(int idPedido)
-{   pedidos ped;
+{
+    pedidos ped;
     int i=0;
     FILE *p;
     p = fopen("pedidos.dat","rb");
-    if (p==NULL) return -1;
+    if (p==NULL)
+        return -1;
     while(fread(&ped,sizeof(pedidos),1,p))
+    {
+        if(idPedido==ped.id)
         {
-            if(idPedido==ped.id)
-            {
-                fclose(p);
-                return i;
-            }
-        i++;
+            fclose(p);
+            return i;
         }
+        i++;
+    }
 
 }
 
 pedidos leerPedidos(int pos)
-{   pedidos ped;
+{
+    pedidos ped;
     FILE *p;
     p = fopen("pedidos.dat","rb");
-    if (p==NULL){ ped.id=-1; return ped;}
+    if (p==NULL)
+    {
+        ped.id=-1;
+        return ped;
+    }
     fseek(p,pos*sizeof(pedidos),SEEK_SET);
     fread(&ped,sizeof(pedidos),1,p);
     fclose(p);
@@ -1159,23 +1338,31 @@ pedidos leerPedidos(int pos)
 
 void listarPedidosId(pedidos ped)
 {
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *                BUSCAR PEDIDO                   *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     int idPedido,pos;
     cout<<"Ingrese el ID del pedido que quiere buscar: ";
     cin>>idPedido;
     pos = buscarIdPedido(idPedido);
     if (pos>=0)
-        {
+    {
         pedidos ped = leerPedidos(pos);
         listarPedido(ped);
         system("pause");
-        }
+    }
 }
 
 bool sobreescribirPedido(pedidos ped, int pos)
 {
     FILE *p;
     p=fopen("pedidos.dat","rb+");
-    if(p==NULL) return -1;
+    if(p==NULL)
+        return -1;
     fseek(p,pos*sizeof(pedidos),SEEK_SET);
     int guardo = fwrite(&ped,sizeof(pedidos),1,p);
     fclose(p);
@@ -1184,11 +1371,23 @@ bool sobreescribirPedido(pedidos ped, int pos)
 
 void modificarPedido()
 {
+    system("cls");
+    setColor(RED);
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<" *                MODIFICAR PEDIDO                *"<<endl;
+    cout<<"*//////////////////////////////////////////////////*"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
     pedidos ped;
     int idBuscado,opcion;
     cout<<"Indique el pedido que desea modificar: ";
     cin>>idBuscado;
-   int pos = buscarIdPedido(idBuscado);
+    if(idBuscado<0){
+        cout<<"Atencion, no coloque valores negativos"<<endl;
+        system("pause");
+     return;
+     }
+    int pos = buscarIdPedido(idBuscado);
     if(pos<=0)
     {
         pedidos ped= leerPedidos(pos);
@@ -1209,83 +1408,257 @@ void modificarPedido()
         }
         ped.estado=opcion;
         if (sobreescribirPedido(ped,pos))
-            {
-                cout<<"Se modifico el pedido con exito"<<endl;
-                system("pause");
-            }else{
-                cout<<"No se modifico el pedido"<<endl;
-            }
+        {
+            cout<<"Se modifico el pedido con exito"<<endl;
+            system("pause");
+        }
+        else
+        {
+            cout<<"No se modifico el pedido"<<endl;
+        }
 
-    }else{
-    cout<<"No se encontro el pedido solicitado"<<endl;
+    }
+    else
+    {
+        cout<<"No se encontro el pedido solicitado"<<endl;
     }
 }
 
- void menuPedidos()
- {
-     while(true)
+void menuPedidos()
+{
+    while(true)
     {
         int opcion;
         system("cls");
-        setColor(RED);
-    cout<<"**********************************************************************************"<<endl;
-    cout<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
-    cout<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
-    cout<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
-    cout<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
-    cout<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
-    cout<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
-    cout<<"**********************************************************************************"<<endl;
-    cout<<endl;
+            setColor(RED);
+    cout<<"                 "<<"**********************************************************************************"<<endl;
     setColor(LIGHTGREEN);
-        cout<<"MENU CLIENTES"<<endl;
-        setColor(RED);
-        cout<<"****************"<<endl;
-        setColor(LIGHTGREEN);
-        cout<<"1) NUEVO PEDIDO"<<endl;
-        cout<<"2) MODIFICAR PEDIDO"<<endl;
-        cout<<"3) LISTAR PEDIDO POR ID"<<endl;
-        cout<<"4) LISTAR TODOS LOS PEDIDOS"<<endl;
-        cout<<"0) Salir"<<endl;
-        setColor(RED);
-        cout<<"****************"<<endl;
-        setColor(LIGHTGREEN);
-        cout<<"Ingresar opcion: ";
+    cout<<"                 "<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"**********************************************************************************"<<endl;
+    cout<<endl;
+    cout<<endl;
+    setColor(RED);
+    cout<<"                 "<<"PEDIDOS"<<"---------------------------------"<<endl;
+    setColor(RED);
+    cout<<"                 |                                      |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      1) NUEVO PEDIDO";setColor(RED);cout<<"                 |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      2) MODIFICAR PEDIDO";setColor(RED);cout<<"             |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      3) LISTAR PEDIDO POR ID";setColor(RED);cout<<"         |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      4) LISTAR TODOS LOS PEDIDOS";setColor(RED);cout<<"     |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"      6) Salir";setColor(RED);cout<<"                        |"<<endl;
+    cout<<"                 |                                      |"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"----------------------------------------"<<endl;
+    setColor(LIGHTGREEN);
+        cout<<"                    Ingresar opcion: ";
         cin>>opcion;
 
-     switch (opcion)
-     {
-            case 1:
-                pedidos ped;
-                if (cargarPedido(&ped)==true);
-                    {
-                        if(nuevoPedido(ped)==true)
-                        {
-                            cout<<"Se cargo nuevo plato"<<endl;
-                            system("pause");
-                        }else{
-                            cout<<"No se pudo generar nuevo plato"<<endl;
-                            }
+        switch (opcion)
+        {
+        case 1:
+            pedidos ped;
+            if (cargarPedido(&ped))
+            {
+                if(nuevoPedido(ped))
+                {
+                    cout<<"Se cargo nuevo pedido"<<endl;
+                    system("pause");
+                }
+                else
+                {
+                    cout<<"No se pudo generar nuevo plato"<<endl;
+                }
 
-                    }
-                system("cls");
-                break;
-            case 2:
-                modificarPedido();
-                break;
-            case 3:
-                listarPedidosId(ped);
-                system("cls");
-                break;
-            case 4:
-                listarPedidos();
-                system("cls");
-                break;
-            case 0:
-                return;
-                break;
-         }
- }
- }
+            }
+            system("cls");
+            break;
+        case 2:
+            modificarPedido();
+            break;
+        case 3:
+            listarPedidosId(ped);
+            system("cls");
+            break;
+        case 4:
+            listarPedidos();
+            system("cls");
+            break;
+        case 0:
+            return;
+            break;
+            default:
+
+            cout<<"Opcion incorrecta"<<endl;
+            system("pause");
+            system("cls");
+            break;
+        }
+    }
+}
+
+///--------------------------------------------------------------
+
+void copiaDeSeguridad(platos *reg, clientes *registro, pedidos *ped)
+{
+    system("cls");
+    FILE *pplatos,*pauxplatos,*pregistro,*pauxregistro,*pped,*pauxped;
+
+    pplatos = fopen("archivos.dat","rb");
+    if (pplatos==NULL){ cout<<"No se pudo abrir archivos de platos"<<endl; system("pause"); return;}
+
+    pregistro = fopen("clientes.dat","rb");
+    if (pregistro==NULL) {cout<<"No se pudo abrir archivos de clientes"<<endl; system("pause"); return;}
+
+    pped = fopen("pedidos.dat","rb");
+    if (pped==NULL){ cout<<"No se pudo abrir archivos de pedidos"<<endl; system("pause"); return;}
+
+    pauxplatos = fopen("platos.bkp","ab");
+    if (pauxplatos==NULL){ cout<<"No se pudo generar backup de platos"<<endl; system("pause"); return;}
+
+    pauxregistro = fopen("clientes.bkp","ab");
+    if (pauxregistro==NULL) {cout<<"No se pudo generar backup de clientes"<<endl; system("pause"); return;}
+
+    pauxped = fopen("pedidos.bkp","ab");
+    if (pauxped==NULL){ cout<<"No se pudo generar backup de pedidos"<<endl; system("pause"); return;}
+
+    while(fread(&reg,sizeof(platos),1,pplatos)==1){
+        fwrite(&reg,sizeof(platos),1,pauxplatos);
+    }
+
+     while(fread(&registro,sizeof(clientes),1,pregistro)==1){
+        fwrite(&registro,sizeof(clientes),1,pauxregistro);
+    }
+
+     while(fread(&ped,sizeof(pedidos),1,pped)==1){
+        fwrite(&ped,sizeof(pedidos),1,pauxped);
+    }
+    fclose(pplatos);
+    fclose(pauxplatos);
+    fclose(pregistro);
+    fclose(pauxregistro);
+    fclose(pped);
+    fclose(pauxped);
+    cout<<"Se realizo el backup de los archivos"<<endl;
+    system("pause");
+}
+
+void restaurarCopia(struct platos *reg, clientes *registro, pedidos *ped)
+{
+    system("cls");
+
+FILE *pplatos,*pauxplatos,*pregistro,*pauxregistro,*pped,*pauxped;
+
+    pauxplatos = fopen("platos.bkp","rb");
+    if (pauxplatos==NULL){ cout<<"No se pudo abrir el archivo de platos"<<endl; system("pause"); return;}
+
+    pauxregistro = fopen("clientes.bkp","rb");
+    if (pauxregistro==NULL){ cout<<"No se pudo abrir el archivo de clientes"<<endl; system("pause"); return;}
+
+    pauxped = fopen("pedidos.bkp","rb");
+    if (pauxped==NULL) {cout<<"No se pudo abrir el archivo de pedidos"<<endl; system("pause"); return;}
+
+    pplatos = fopen("archivos.dat","wb");
+    if (pplatos==NULL){ cout<<"No se pudo abrir archivos de platos"<<endl; system("pause"); return;}
+
+    pregistro = fopen("clientes.dat","wb");
+    if (pregistro==NULL){ cout<<"No se pudo abrir archivos de clientes"<<endl; system("pause"); return;}
+
+    pped = fopen("pedidos.dat","wb");
+    if (pped==NULL){ cout<<"No se pudo abrir archivos de pedidos"<<endl; system("pause"); return;}
+
+    while(fread(&reg,sizeof(platos),1,pauxplatos)==1){
+        fwrite(&reg,sizeof(platos),1,pplatos);
+    }
+
+     while(fread(&registro,sizeof(clientes),1,pauxregistro)==1){
+        fwrite(&registro,sizeof(clientes),1,pregistro);
+    }
+
+     while(fread(&ped,sizeof(pedidos),1,pauxped)==1){
+        fwrite(&ped,sizeof(pedidos),1,pped);
+    }
+
+    fclose(pplatos);
+    fclose(pauxplatos);
+    fclose(pregistro);
+    fclose(pauxregistro);
+    fclose(pped);
+    fclose(pauxped);
+    cout<<"Se restauro el backup correspondiente"<<endl;
+    system("pause");
+}
+
+
+void menuConfiguraciones()
+{
+    while(true)
+    {
+        int opc;
+        system("cls");
+      setColor(RED);
+    cout<<"                 "<<"**********************************************************************************"<<endl;
+    setColor(LIGHTGREEN);
+    cout<<"                 "<<"*    $$$$$$$$$$$$    $$$$$$$$       $$       $$$$$$$$$  $$$$$$$$    $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$     $$  $$      $$  $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$      $$     $$       $$$$$$$$$  $$      $$  $$$$$$$$$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$$$$$$$       $$       $$     $$  $$$$$$$$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$       $$     $$  $$    $$    $$     $$    *"<<endl;
+    cout<<"                 "<<"*        $$$         $$             $$$$$$$$ $$     $$  $$      $$  $$     $$    *"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"**********************************************************************************"<<endl;
+    cout<<endl;
+    setColor(LIGHTGREEN);
+    cout<<endl;
+    setColor(RED);
+    cout<<"                 "<<"CONFIGURACIONES"<<"--------------------------"<<endl;
+    setColor(RED);
+    cout<<"                 |                                       |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"    1) REALIZAR COPIA DE SEGURIDAD";setColor(RED);cout<<"     |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"    2) RESTAURAR COPIA DE SEGURIDAD";setColor(RED);cout<<"    |"<<endl;
+    cout<<"                 ""|";setColor(LIGHTGREEN);     cout<<"    0) SALIR";setColor(RED);cout<<"                           |"<<endl;
+    cout<<"                 |                                       |"<<endl;
+    setColor(RED);
+    cout<<"                 "<<"-----------------------------------------"<<endl;
+    setColor(LIGHTGREEN);
+        cout<<"                   Ingresar opcion: ";
+        cin>>opc;
+        switch (opc)
+        {
+        case 1:
+            {
+            platos reg;
+            clientes registro;
+            pedidos ped;
+            copiaDeSeguridad(&reg,&registro,&ped);
+             }
+            break;
+        case 2:
+            {
+                platos reg;
+            clientes registro;
+            pedidos ped;
+
+            restaurarCopia(&reg,&registro,&ped);
+            break;
+            }
+        case 0:
+            return;
+            break;
+        default:
+            cout<<"Opcion incorrecta"<<endl;
+            system("pause");
+            system("cls");
+            break;
+        }
+    }
+}
+
+
 
 #endif // FUNCIONES_H_INCLUDED
