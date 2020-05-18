@@ -568,6 +568,8 @@ bool guardarCliente(clientes registro)
         return guardo;
 }
 bool validarFecha(int dia, int mes , int anio){
+
+}
 switch ( mes )
         {
             case  1 :
@@ -577,7 +579,7 @@ switch ( mes )
             case  8 :
             case 10 :
             case 12 : if ( dia >= 1 && dia <= 31 ){
-                          cout<<( "   FECHA CORRECTA" );
+                          
                           return true;
                           }
                       else{
@@ -589,7 +591,7 @@ switch ( mes )
             case  6 :
             case  9 :
             case 11 : if ( dia >= 1 && dia <= 30 ){
-                          cout<<( "   FECHA CORRECTA" )<<endl;
+                          
                           return true;}
 
                       else{
@@ -599,10 +601,10 @@ switch ( mes )
 
             case  2 : if( anio % 4 == 0 && anio % 100 != 0 || anio % 400 == 0 ){
                           if ( dia >= 1 && dia <= 29 ){
-                              cout<<( "   FECHA CORRECTA" );
+                              
                               return true;}
                         else if ( dia >= 1 && dia <= 28 ){
-                              cout<<( "   FECHA CORRECTA" );
+                              
                               return true;}
                         else{
                               cout<<( "   FECHA INCORRECTA" );
